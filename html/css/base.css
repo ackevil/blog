@@ -1,16 +1,32 @@
-body {
-  padding-top: 70px;
+body{
+  padding-top: 60px;
+  padding-bottom: 200px;
 }
-.article-wrap{
-  background-color:#ffffff;
+html {
+  position: relative;
+  min-height: 100%;
+}
 
- 
-}
-.carousel{
- background-color: white;
 
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 150px;
+  background-color: #eee;
+  text-align: right;
+  border-top: 1px solid #dddddd;
 }
+.footer .container{
+  margin-top: 20px;
+}
+
+
+
 
 .tab-line li.active {
 border-bottom: 2px solid crimson;
 }
+

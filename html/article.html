@@ -64,11 +64,149 @@
         </nav>
         </header>
 
-        <main>
+        <main class="main">
             <div class="container">
                <div class="row">
                 <div class="col-md-9">
                    <article class="article-wrap">
+                    <div class="article-head">
+                    <a href="/p/30" title="PHP-CLI环境变量的设置和读取"><h3>PHP-CLI环境变量的设置和读取</h3></a>
+                    <p><small>标签：</small>
+
+                    <small>
+
+                    <a href="/t/PHP"><span class="label label-success">PHP</span></a>&nbsp;&nbsp;
+
+                    <a href="/t/%E9%85%8D%E7%BD%AE"><span class="label label-success">配置</span></a>&nbsp;&nbsp;
+
+                    </small>
+
+                    </p>
+                    </div>
+                    <div class="article-body">
+                    <p>通常我们在维护PHP线上项目的时候，为了隔离配置和代码，会使用<code>fastcgi_param</code>的形式将环境变量定义在Nginx的配置文件中（Apache可以使用<code>SetEnv</code>指令）。这样在PHP-FPM运行过程中就可以使用<code>getenv</code>函数获取到环境变量的值了。</p>
+
+                    <p>那对于PHP-CLI，我们又应该怎么设置它的环境变量呢？做法也很简单。</p>
+
+                    <p>在终端直接执行：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh"><code>$ export ART_ENV=production</code></pre class="brush: js;" >
+
+                    <p>后续直接使用PHP-CLI命令的时候自然可以获取到环境变量<code>ART_ENV</code>的值：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">$ php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                        string(10) &quot;production&quot;</pre class="brush: js;" >
+
+                    <p>但是通常还有这种情况：我们当前登录的用户并不是合适的用来运行PHP-CLI脚本的用户，比如我们期待使用<code>www-data</code>用户来运行PHP-CLI脚本，通常我们会这样做：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo -u www-data php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                    bool(false)</pre class="brush: js;" >
+
+                    <p>这时候就会发现无法获取到环境变量了。查看<code>sudo --help</code>可以发现我们还需要设置<code>-E</code>参数：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo --help
+                    ...
+                    -E, --pre class="brush: js;" serve-env          pre class="brush: js;" serve user environment when running command</pre class="brush: js;" >
+
+                    <p>按照文档说明补上即可：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo -E -u www-data php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                    string(10) &quot;production&quot;</pre class="brush: js;" >
+
+                    <p>或者更直接点直接指定环境变量的值：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo -u www-data ART_ENV=testing php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                    string(7) &quot;testing&quot;</pre class="brush: js;" >
+
+                    <p><strong>需要注意的是：</strong>这里的PHP代码都必须使用<a href="http://php.net/getenv" target="_blank">getenv</a>函数获取环境变量，不能单纯依赖全局变量<code>$_ENV</code>。全局变量<code>$_ENV</code>并不总是可用的，除非在php.ini文件中显式设置了<code>variables_order</code>的值包含E，例如<code>variables_order = &quot;EGPCS&quot;</code>。更多的详细信息可以参考PHP文档的<a href="http://php.net/manual/en/language.variables.superglobals.php" target="_blank">全局变量</a>部分。</p>
+                    </div>
+                    <div class="article-foot">
+                    <p>
+                    <pre class="brush: js;" >int a</pre >
+                    <pre class="brush: js;">
+                        function hellosyntaxhighlighter()
+                        {
+                            return "hi!";
+                        }
+                        </pre>
+                    </p>
+                    <p class="text-right"><a href="/@Alvan" target="_blank"><small>Alvan</small></a><small> 发布于 2016-06-30 21:21</small></p>
+                    </div>
+                    </article>
+                     <article class="article-wrap">
+                    <div class="article-head">
+                    <a href="/p/30" title="PHP-CLI环境变量的设置和读取"><h3>PHP-CLI环境变量的设置和读取</h3></a>
+                    <p><small>标签：</small>
+
+                    <small>
+
+                    <a href="/t/PHP"><span class="label label-success">PHP</span></a>&nbsp;&nbsp;
+
+                    <a href="/t/%E9%85%8D%E7%BD%AE"><span class="label label-success">配置</span></a>&nbsp;&nbsp;
+
+                    </small>
+
+                    </p>
+                    </div>
+                    <div class="article-body">
+                    <p>通常我们在维护PHP线上项目的时候，为了隔离配置和代码，会使用<code>fastcgi_param</code>的形式将环境变量定义在Nginx的配置文件中（Apache可以使用<code>SetEnv</code>指令）。这样在PHP-FPM运行过程中就可以使用<code>getenv</code>函数获取到环境变量的值了。</p>
+
+                    <p>那对于PHP-CLI，我们又应该怎么设置它的环境变量呢？做法也很简单。</p>
+
+                    <p>在终端直接执行：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh"><code>$ export ART_ENV=production</code></pre class="brush: js;" >
+
+                    <p>后续直接使用PHP-CLI命令的时候自然可以获取到环境变量<code>ART_ENV</code>的值：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">$ php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                        string(10) &quot;production&quot;</pre class="brush: js;" >
+
+                    <p>但是通常还有这种情况：我们当前登录的用户并不是合适的用来运行PHP-CLI脚本的用户，比如我们期待使用<code>www-data</code>用户来运行PHP-CLI脚本，通常我们会这样做：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo -u www-data php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                    bool(false)</pre class="brush: js;" >
+
+                    <p>这时候就会发现无法获取到环境变量了。查看<code>sudo --help</code>可以发现我们还需要设置<code>-E</code>参数：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo --help
+                    ...
+                    -E, --pre class="brush: js;" serve-env          pre class="brush: js;" serve user environment when running command</pre class="brush: js;" >
+
+                    <p>按照文档说明补上即可：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo -E -u www-data php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                    string(10) &quot;production&quot;</pre class="brush: js;" >
+
+                    <p>或者更直接点直接指定环境变量的值：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo -u www-data ART_ENV=testing php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                    string(7) &quot;testing&quot;</pre class="brush: js;" >
+
+                    <p><strong>需要注意的是：</strong>这里的PHP代码都必须使用<a href="http://php.net/getenv" target="_blank">getenv</a>函数获取环境变量，不能单纯依赖全局变量<code>$_ENV</code>。全局变量<code>$_ENV</code>并不总是可用的，除非在php.ini文件中显式设置了<code>variables_order</code>的值包含E，例如<code>variables_order = &quot;EGPCS&quot;</code>。更多的详细信息可以参考PHP文档的<a href="http://php.net/manual/en/language.variables.superglobals.php" target="_blank">全局变量</a>部分。</p>
+                    </div>
+                    <div class="article-foot">
+                    <p>
+                    <pre class="brush: js;" >int a</pre >
+                    <pre class="brush: js;">
+                        function hellosyntaxhighlighter()
+                        {
+                            return "hi!";
+                        }
+                        </pre>
+                    </p>
+                    <p class="text-right"><a href="/@Alvan" target="_blank"><small>Alvan</small></a><small> 发布于 2016-06-30 21:21</small></p>
+                    </div>
+                    </article>
+                     <article class="article-wrap">
                     <div class="article-head">
                     <a href="/p/30" title="PHP-CLI环境变量的设置和读取"><h3>PHP-CLI环境变量的设置和读取</h3></a>
                     <p><small>标签：</small>
@@ -274,21 +412,21 @@
             </div>
         </main>
 
-        <footer style="background-color:#eee">
+ <footer class="footer">
         <div class="container">
         <div class="row" >
-            <div class="col-md-9 text-right " style="padding:30px">
+            <div class="col-md-9 text-right ">
                 <p class="text-muted">&copy;2017 <a href="http://godhill.com/">GodHill.com</a>.</p>
                 <p class="text-muted">Designed and built with all the love in the world by <a href="http://godhill.com/@HillGuo" target="_blank">HillGuo</a>.</p>
             </div>
-            <div class="col-md-3 " style="padding:20px">
+            <div class="col-md-3  text-left">
                 <img  src="holder.js/100x100"/>
             </div>
             
             
         </div>
         </div>
-        </footer>
+ </footer>
      
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
