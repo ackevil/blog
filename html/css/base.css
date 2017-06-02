@@ -1,0 +1,16 @@
+body {
+  padding-top: 70px;
+}
+.article-wrap{
+  background-color:#ffffff;
+
+ 
+}
+.carousel{
+ background-color: white;
+
+}
+
+.tab-line li.active {
+border-bottom: 2px solid crimson;
+}

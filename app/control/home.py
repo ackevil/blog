@@ -1,5 +1,5 @@
 import tornado
-
-class HomeControl(tornado.web.RequestHandler):
+from app.control.basic import BasicControl
+class HomeControl(BasicControl):
     def get(self):
-        self.write("Hello Baby\n")
+        self.render("posts.html")

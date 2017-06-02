@@ -6,8 +6,12 @@ import tornado.web
 import tornado.ioloop
 from tornado.options import define,options
 
-from url import url # url 映射
-from etc import etc # 网站配置
+sys.path[0]=os.path.dirname(sys.path[0])
+
+from app.url import url # url 映射
+from app.etc import etc # 网站配置
+
+
 
 app = tornado.web.Application(handlers = url, **etc)
 

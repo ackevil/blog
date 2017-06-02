@@ -1,7 +1,7 @@
 import sys,os,time
 
 etc = {}
-etc['debug'] = True
+etc['debug'] = False
 etc['error'] = False
 etc['servs'] = 'AL/1.0.%s' % int(time.time())
 

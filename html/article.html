@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blog</title>
+        <link rel="stylesheet" type="" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/base.css">
+    </head>
+    <body>
+        <header>
+         <!-- Fixed navbar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand" >GodHill</div>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav tab-line">
+                <li class="active"><a href="#">Blog</a></li>
+                <li><a href="#about">JAVA</a></li>
+                <li><a href="#about">C/C++</a></li>
+                <li><a href="#about">Python</a></li>
+                <li><a href="#about">Linux</a></li>
+               
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">C++</a></li>
+                    <li><a href="#">VIM</a></li>
+                    <li><a href="#">LINUX</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li class="dropdown-header">Docker</li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                </ul>
+                </li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+
+            </ul>
+             <ul class="nav navbar-nav navbar-right">
+                
+                <li>
+                    <a  id="nav-login" data-toggle="modal" data-target="#login-modal"  style="padding-right:0px;cursor:pointer;">
+                    登陆
+                    </a>
+                </li>
+                <li>
+                    <a  id="nav-register" data-toggle="modal" data-target="#register-modal" style="padding-right:0px;cursor:pointer">
+                    注册
+                    </a>
+                </li>
+                
+            </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+        </nav>
+        </header>
+
+        <main>
+            <div class="container">
+               <div class="row">
+                <div class="col-md-9">
+                   <article class="article-wrap">
+                    <div class="article-head">
+                    <a href="/p/30" title="PHP-CLI环境变量的设置和读取"><h3>PHP-CLI环境变量的设置和读取</h3></a>
+                    <p><small>标签：</small>
+
+                    <small>
+
+                    <a href="/t/PHP"><span class="label label-success">PHP</span></a>&nbsp;&nbsp;
+
+                    <a href="/t/%E9%85%8D%E7%BD%AE"><span class="label label-success">配置</span></a>&nbsp;&nbsp;
+
+                    </small>
+
+                    </p>
+                    </div>
+                    <div class="article-body">
+                    <p>通常我们在维护PHP线上项目的时候，为了隔离配置和代码，会使用<code>fastcgi_param</code>的形式将环境变量定义在Nginx的配置文件中（Apache可以使用<code>SetEnv</code>指令）。这样在PHP-FPM运行过程中就可以使用<code>getenv</code>函数获取到环境变量的值了。</p>
+
+                    <p>那对于PHP-CLI，我们又应该怎么设置它的环境变量呢？做法也很简单。</p>
+
+                    <p>在终端直接执行：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh"><code>$ export ART_ENV=production</code></pre class="brush: js;" >
+
+                    <p>后续直接使用PHP-CLI命令的时候自然可以获取到环境变量<code>ART_ENV</code>的值：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">$ php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                        string(10) &quot;production&quot;</pre class="brush: js;" >
+
+                    <p>但是通常还有这种情况：我们当前登录的用户并不是合适的用来运行PHP-CLI脚本的用户，比如我们期待使用<code>www-data</code>用户来运行PHP-CLI脚本，通常我们会这样做：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo -u www-data php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                    bool(false)</pre class="brush: js;" >
+
+                    <p>这时候就会发现无法获取到环境变量了。查看<code>sudo --help</code>可以发现我们还需要设置<code>-E</code>参数：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo --help
+                    ...
+                    -E, --pre class="brush: js;" serve-env          pre class="brush: js;" serve user environment when running command</pre class="brush: js;" >
+
+                    <p>按照文档说明补上即可：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo -E -u www-data php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                    string(10) &quot;production&quot;</pre class="brush: js;" >
+
+                    <p>或者更直接点直接指定环境变量的值：</p>
+
+                    <pre class="brush: js;"  class="pre class="brush: js;" ttyprint linenums lang-sh " data-pbcklang="sh">
+                    $ sudo -u www-data ART_ENV=testing php -r &quot;var_dump(getenv(&#39;ART_ENV&#39;));&quot;
+                    string(7) &quot;testing&quot;</pre class="brush: js;" >
+
+                    <p><strong>需要注意的是：</strong>这里的PHP代码都必须使用<a href="http://php.net/getenv" target="_blank">getenv</a>函数获取环境变量，不能单纯依赖全局变量<code>$_ENV</code>。全局变量<code>$_ENV</code>并不总是可用的，除非在php.ini文件中显式设置了<code>variables_order</code>的值包含E，例如<code>variables_order = &quot;EGPCS&quot;</code>。更多的详细信息可以参考PHP文档的<a href="http://php.net/manual/en/language.variables.superglobals.php" target="_blank">全局变量</a>部分。</p>
+                    </div>
+                    <div class="article-foot">
+                    <p>
+                    <pre class="brush: js;" >int a</pre >
+                    <pre class="brush: js;">
+                        function hellosyntaxhighlighter()
+                        {
+                            return "hi!";
+                        }
+                        </pre>
+                    </p>
+                    <p class="text-right"><a href="/@Alvan" target="_blank"><small>Alvan</small></a><small> 发布于 2016-06-30 21:21</small></p>
+                    </div>
+                    </article>
+
+                   
+                    
+                    <nav aria-label="...">
+                    <ul class="pager">
+                        <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
+                        <li><a href="javascript:;" title="点赞（+1）" class="award" data-post-id="30" data-plus-ts="✓ 1">+ 1</a></li>
+                        <li class="next"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
+                    </ul>
+                    </nav>
+                    <div id="talks">
+                        <div id="list-talk">
+                        <fieldset>
+                        <legend>
+                        文章评论
+                        </legend>
+                        </fieldset>
+                        </div>
+
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">你的名称：</label>
+                                <div class="col-sm-4">
+                                <input class="form-control" id="form-talk-name" type="text" name="name" class="span3" minlength="3" maxlength="64" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">你的邮箱：</label>
+                                <div class="col-sm-4">
+                                <input  class="form-control" id="form-talk-mail" type="email" name="mail" class="span3" minlength="6" maxlength="64" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="form-talk-text">评论内容：</label>
+                                <div class="col-sm-10">
+                                <textarea class="form-control" id="form-talk-text" name="text" rows="8" class="input-block-level" required></textarea>
+                                </div>
+                            </div>
+                        <div class="form-group">
+                             <div class="col-sm-4 col-sm-offset-4">
+                            <button  type="submit" class="btn btn-success input-large form-control">提交评论</button>
+                             </div>
+                        </div>
+                        </form>
+                        
+                    </div>
+                    
+                
+                
+                </div>
+                <div class="col-md-3">
+                    <div style="margin-bottom:10px">
+                    <div class="input-group">  
+                        <input type="text" class="form-control"placeholder="请输入关键字" / >  
+                                <span class="input-group-btn">  
+                                <button class="btn btn-info btn-search">搜索</button>  
+                                </span>  
+                    </div>  
+                    </div>
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">热门文章</h3>
+                    </div>
+                    
+                        <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="badge">14</span>
+                            Cras justo odio
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">14</span>
+                            Cras justo odio
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">14</span>
+                            Cras justo odio
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">14</span>
+                            Cras justo odio
+                        </li>
+                        </ul>
+                    
+                    </div>
+                     <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">最新评论</h3>
+                    </div>
+                    
+                        <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="img-circle" src="holder.js/50x50"/>
+                                </div>
+                                 <div class="col-md-8">
+                                    <p> A Say:</p>
+                                    <p>讲的不错</p>
+                                </div>
+                            </div>
+                           
+                        </li>
+                         <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="img-circle" src="holder.js/50x50"/>
+                                </div>
+                                 <div class="col-md-8">
+                                    <p> A Say:</p>
+                                    <p>讲的不错</p>
+                                </div>
+                            </div>
+                           
+                        </li>
+                         <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="img-circle" src="holder.js/50x50"/>
+                                </div>
+                                 <div class="col-md-8">
+                                    <p> A Say:</p>
+                                    <p>讲的讲的不讲的不不错</p>
+                                </div>
+                            </div>
+                           
+                        </li>
+                       
+                        </ul>
+                    
+                    </div>
+                    
+                   
+                </div>
+               </div>
+            </div>
+        </main>
+
+        <footer style="background-color:#eee">
+        <div class="container">
+        <div class="row" >
+            <div class="col-md-9 text-right " style="padding:30px">
+                <p class="text-muted">&copy;2017 <a href="http://godhill.com/">GodHill.com</a>.</p>
+                <p class="text-muted">Designed and built with all the love in the world by <a href="http://godhill.com/@HillGuo" target="_blank">HillGuo</a>.</p>
+            </div>
+            <div class="col-md-3 " style="padding:20px">
+                <img  src="holder.js/100x100"/>
+            </div>
+            
+            
+        </div>
+        </div>
+        </footer>
+     
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/holder/2.9.4/holder.min.js"></script>
+   
+	    <script type="text/javascript" src="syntaxhighlighter/scripts/shCore.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushBash.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushCss.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushCSharp.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushPhp.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushPlain.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushPython.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushJava.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushScala.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushSql.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushXml.js"></script>
+		<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushPerl.js"></script>
+		<link type="text/css" rel="stylesheet" href="syntaxhighlighter/styles/shCore.css" />
+		<link type="text/css" rel="stylesheet" href="syntaxhighlighter/styles/shThemeDefault.css" />
+        <script type="text/javascript">
+        SyntaxHighlighter.defaults['toolbar'] = false;  //去掉右上角问号图标
+		SyntaxHighlighter.config.tagName = 'pre';       //可以更改解析的默认Tag。
+		SyntaxHighlighter.config.bloggerMode = true; 
+		SyntaxHighlighter.config.stripBrs = true;  
+		SyntaxHighlighter.all();
+        </script>
+    
+    
+    </body>
+</html>
