@@ -1,5 +1,57 @@
+{% if posts %}
+<div class="article-list">
+    {% for post in posts %}
+    <article class="article-wrap">
+        <div class="article-head">
+            <a href="/p/{{ post['post_id']}}" title="{{ post['post_descp'] and post['post_descp'] or post['post_title'] }}"><h4>{{ post['post_title'] }}</h4></a>
+            <p><small>标签：</small>
+             <small>
 
-<div class="row">
-    dddd
+                <a href="/t/PHP"><span class="label label-success">PHP</span></a>&nbsp;&nbsp;
+
+                <a href="/t/%E9%85%8D%E7%BD%AE"><span class="label label-success">配置</span></a>&nbsp;&nbsp;
+
+                </small>
+            </p>
+        </div>
+        <div class="article-body">
+            {% raw post['post_summary'] %}
+        </div>
+        <div class="article-foot">
+            <p class="text-right"><a href="/@Alvan" target="_blank"><small>Alvan</small></a><small> 发布于 2016-06-30 21:21</small></p>
+            <p class="text-right"><a href="/p/30" title="PHP-CLI环境变量的设置和读取">全文 &raquo; </a></p>
+        </div>
+    </article>
+    {% end %}
+    <article class="article-wrap">
+        <div class="article-head">
+            <a href="/p/30" title="PHP-CLI环境变量的设置和读取">
+                <h4>PHP-CLI环境变量的设置和读取</h4>
+            </a>
+            <p><small>标签：</small>
+                <small>
+
+                <a href="/t/PHP"><span class="label label-success">PHP</span></a>&nbsp;&nbsp;
+
+                <a href="/t/%E9%85%8D%E7%BD%AE"><span class="label label-success">配置</span></a>&nbsp;&nbsp;
+
+                </small>
+
+            </p>
+        </div>
+        <div class="article-body">
+            <p>通常我们在维护PHP线上项目的时候，为了隔离配置和代码，会使用<code>fastcgi_param</code>的形式将环境变量定义在Nginx的配置文件中（Apache可以使用<code>SetEnv</code>指令）。这样在PHP-FPM运行过程中就可以使用<code>getenv</code>函数获取到环境变量的值了。</p>
+            <p>那对于PHP-CLI，我们又应该怎么设置它的环境变量呢？做法也很简单。</p>
+        </div>
+        <div class="article-foot">
+            <p class="text-right"><a href="/@Alvan" target="_blank"><small>Alvan</small></a><small> 发布于 2016-06-30 21:21</small></p>
+            <p class="text-right"><a href="/p/30" title="PHP-CLI环境变量的设置和读取">全文 &raquo; </a></p>
+        </div>
+    </article>
 </div>
-
+{% else %}
+<div class="alert alert-block text-center">
+    <strong>没有发现内容</strong>
+</div>
+{% end %}
+{% module Template("_page.html", pager=pager) %}

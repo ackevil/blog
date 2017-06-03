@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+
+{% block main%}
+               <div class="row">
+                <div class="col-md-9">
+                    <ul class="breadcrumb">
+                    <li><a href="/"><i class="glyphicon glyphicon-home"></i></a> <span class="divider"></span></li>
+                    <li><a href="/">Blog</a> <span class="divider"></span></li>
+                    <li class="active"></li>
+                    </ul>
+                     {% module Template("posts.html", pager=pager, posts=posts) %}                                        
+                </div>
+
+                  {% include "_side.html" %} 
+                
+               </div>
+{% end %}

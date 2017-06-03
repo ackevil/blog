@@ -1,4 +1,5 @@
 import os
+import time
 
 import tornado
 
@@ -58,3 +59,9 @@ class BasicControl(tornado.web.RequestHandler):
         
     def jsons(self,json):
         pass;
+    
+    def stime(self):
+        return int(time.time())
+
+    def input(self, *args, **kwargs):
+        return self.get_argument(*args,**kwargs)
