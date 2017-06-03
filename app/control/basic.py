@@ -3,6 +3,8 @@ import time
 
 import tornado
 
+from app.dao.conf_dao import ConfDao
+
 class BasicControl(tornado.web.RequestHandler):
     def initialize(self):
         self._caches = {'model':{},'datum':{}}
@@ -52,16 +54,23 @@ class BasicControl(tornado.web.RequestHandler):
         usid=self.get_cookie("_usid")
 
     def get_runtime_conf(self,name):
-        return None
+        return ConfDao("confs").obtain(name)
 
     def asset(self, name, host = '/', base = 'www', path = 'assets', vers = True):
         pass;
         
     def jsons(self,json):
-        pass;
+        if json is None or json == '':
+            return None
+        return self.get_escaper().json_decode(json)
     
     def stime(self):
         return int(time.time())
 
     def input(self, *args, **kwargs):
         return self.get_argument(*args,**kwargs)
+    
+    def get_escaper(self):
+        return tornado.escape
+    def timer(self):
+        return time
