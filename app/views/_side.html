@@ -7,31 +7,23 @@
                                 </span>  
                     </div>  
                     </div>
+                    {% if posts_hot%}
                     <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">热门文章</h3>
                     </div>
-                    
+                        
                         <ul class="list-group">
+                        {% for val in posts_hot %}
                         <li class="list-group-item">
                             <span class="badge">14</span>
-                            Cras justo odio
+                            <a href="" class="text-info " title="{{ val['post_sescp'] and }}" ></a>
                         </li>
-                        <li class="list-group-item">
-                            <span class="badge">14</span>
-                            Cras justo odio
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge">14</span>
-                            Cras justo odio
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge">14</span>
-                            Cras justo odio
-                        </li>
+                        {% end %}
                         </ul>
                     
                     </div>
+                    {% end %}
                      <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">最新评论</h3>
