@@ -18,7 +18,7 @@ class PostDao(BaseDao):
         return self.result("select posts.* from posts,post_terms where posts.post_id=post_terms.post_id and term_id=? and post_stat>0 and post_ptms<? order by post_ptms desc limit ? offset ?", (tag['term_id'], stime, pager['qnty'], (pager['page']-1)*pager['qnty'], ))
 
     def get_all_keyword_post(self,keyword,stime,pager):
-        return self.result('select * from posts where post_stat > 0 and post_ptms < ? and (post_title like ? or post_content like ?) order by post_ptms desc limit ? offset ?',(stime,'%'+keyword+'%','%'+keyword+'%',pager['qnty'],(pager['page']-1)*pager['qnty'], ))
+        return self.result('select * from posts where post_stat > 0 and post_ptms < ? and (post_title like ? or post_content like ? ) order by post_ptms desc limit ? offset ?',(stime,'%'+keyword+'%','%'+keyword+'%',pager['qnty'],(pager['page']-1)*pager['qnty'], ))
     
     def get_all_ptids_by_postid(self,postids):
         return self.result('select post_id,term_id from post_terms where post_id in ('+','.join(postids)+')')
@@ -35,4 +35,5 @@ class PostDao(BaseDao):
     def get_new_posts(self,stime):
         return self.result('select post_id,post_title,post_descp from posts where post_stat>0 and post_ptms<? order by post_ptms desc, post_id desc limit 9', (stime,))  
 
-    
+    def update_refc(self,post_id):
+        return self.invoke("update posts set post_refc = post_refc + 1 where post_id = ?",(post_id,))

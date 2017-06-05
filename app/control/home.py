@@ -13,9 +13,10 @@ class HomeControl(BasicControl):
         pager['page'] = max(int(self.input('page', 1)), 1)
         pager['lgth'] = 0
 
+
         stime=self.stime(); #当前时间
         track=''
-        _qry = self.input("q",None)  #获取 是否是搜索操作
+        keyword = self.input("keyword",None)  #获取 是否是搜索操作
         _tag = None
         _top = False
         if _tnm:
@@ -28,10 +29,10 @@ class HomeControl(BasicControl):
         elif _tnm:
             self.flash(0,{'sta':404})
             return
-        elif _qry:
+        elif keyword:
             post_dao=PostDao("posts")
-            posts=post_dao.get_all_keyword_post(_qry,stime,pager)
-            tarck = '搜索: '+_qry
+            posts=post_dao.get_all_keyword_post(keyword,stime,pager)
+            tarck = '搜索: '+keyword
         else:
             post_dao=PostDao("posts")
             posts = post_dao.get_all_post(stime, pager)

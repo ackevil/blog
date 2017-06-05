@@ -41,6 +41,7 @@
                 <li class="next"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
             </ul>
         </nav>
+
         <div id="talks">
             <div id="list-talk">
                 <fieldset>
@@ -50,11 +51,19 @@
                 </fieldset>
             </div>
 
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="post" action="/voice/{{ post['post_id']}}">
+            {% raw xsrf_form_html() %}
+                {% if handler.current_user %}
+                <div class="from-froup">
+                    <label for="" class="control-label">
+                        <input type="checkbox" name="auth" value="1" checked="checked"> 以登录用户评论
+                    </label>
+                </div>
+                {% end %}
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">你的名称：</label>
                     <div class="col-sm-4">
-                        <input class="form-control" id="form-talk-name" type="text" name="name" class="span3" minlength="3" maxlength="64" required>
+                        <input class="form-control" id="form-talk-name" type="text" name="name" class="span3" minlength="3" maxlength="64" {% if handler.current_user %} value="{{ handler.current_user['user_name'] }}" readonly {% end %} required>
                     </div>
                 </div>
                 <div class="form-group">

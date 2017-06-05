@@ -1,12 +1,15 @@
 <div class="col-md-3">
+                    <form action="/s" method="get">
                     <div style="margin-bottom:10px">
                     <div class="input-group">  
-                        <input type="text" class="form-control"placeholder="请输入关键字" / >  
+                        <input type="text" name="keyword" class="form-control" placeholder="请输入关键字"  required/ >  
                                 <span class="input-group-btn">  
-                                <button class="btn btn-info btn-search">搜索</button>  
+                                <button  type="submit" class="btn btn-info btn-search">搜索</button>  
                                 </span>  
                     </div>  
                     </div>
+                    </form>
+
                     {% if posts_hot%}
                     <div class="panel panel-default">
                     <div class="panel-heading">
@@ -17,19 +20,22 @@
                         {% for val in posts_hot %}
                         <li class="list-group-item">
                             <span class="badge">14</span>
-                            <a href="" class="text-info " title="{{ val['post_sescp'] and }}" ></a>
+                            <a href="/p/{{ val['post_id'] }}" class="text-info " title="{{ val['post_title'] }}" >{{ val['post_title']}}</a>
                         </li>
                         {% end %}
                         </ul>
                     
                     </div>
                     {% end %}
+
+                    {% if talks_new %}
                      <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">最新评论</h3>
                     </div>
                     
                         <ul class="list-group">
+                        {% for val in talks_new %}
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-md-4">
@@ -37,40 +43,16 @@
                                 </div>
                                  <div class="col-md-8">
                                     <p> A Say:</p>
-                                    <p>讲的不错</p>
+                                    <p><a title="{{ val['talk_text']}}" href="/p/{{ val['post_id']}}#talks">{{val['talk_text']}}</a></p>
                                 </div>
                             </div>
                            
                         </li>
-                         <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <img class="img-circle" src="holder.js/50x50"/>
-                                </div>
-                                 <div class="col-md-8">
-                                    <p> A Say:</p>
-                                    <p>讲的不错</p>
-                                </div>
-                            </div>
-                           
-                        </li>
-                         <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <img class="img-circle" src="holder.js/50x50"/>
-                                </div>
-                                 <div class="col-md-8">
-                                    <p> A Say:</p>
-                                    <p>讲的讲的不讲的不不错</p>
-                                </div>
-                            </div>
-                           
-                        </li>
-                       
+                        {% end %}
                         </ul>
                     
                     </div>
                     
-                   
+                    {% end %}
                 </div>
                </div>

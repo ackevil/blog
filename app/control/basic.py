@@ -48,7 +48,7 @@ class BasicControl(tornado.web.RequestHandler):
         #if _ext == ".json" or self.find_accept("json"):
         #    self.write(tornado.escape.json_encode(resp))
         #else:
-            self.render("flash.html",resp=resp)
+        self.render("flash.html",resp=resp)
 
     def get_current_user(self):
         usid=self.get_cookie("_usid")
